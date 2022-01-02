@@ -54,3 +54,5 @@ function game(){
         console.log("You've lost the game. Maybe next time!")
     }
 }
+
+game()
