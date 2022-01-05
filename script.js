@@ -1,58 +1,106 @@
-let playerScore = 0;
-let computerScore = 0;
+let userScore = 0;
+let compScore = 0;
+let rounds = 0;
 
-// This functions determines the computer choice randomly
-function computerPlay(){
-    const choices = ["Rock", "Paper", "Scissors"]
-    return choices[Math.floor(Math.random() * 3)]
+function enemyTroop(){
+    let troops = ["cavalry", "archer", "infantry"]
+    return troops[Math.floor(Math.random() * 3)]
 }
 
-// This function checks who is the winner
-function winner(playerSelection, computerSelection){
-    if ((playerSelection === "Rock" && computerSelection === "Scissors") ||
-        (playerSelection === "Scissors" && computerSelection === "Paper") ||
-        (playerSelection === "Paper" && computerSelection === "Rock")){
-            return "player"
-    } else if (playerSelection === computerSelection) {
-            return "tie"
+function checkRoundWinner(userTroop, compTroop){
+
+    if ((userTroop === "cavalry" && compTroop === "archer") || 
+    (userTroop === "archer" && compTroop === "infantry") ||
+    (userTroop === "infantry" && compTroop === "cavalry")) {
+        return "user";
+    } else if ( userTroop === compTroop) {
+        return "draw";
     } else {
-            return "computer"
+        return "computer";
     }
 }
 
-// This function manages 1 round of the game
+function updateScoreBoard(){
+    document.querySelector(".scores").textContent = 
+    `Your Victories: ${userScore} || Enemy Victories: ${compScore}`
+}
+
+function updateRound(){
+    document.querySelector(".rounds").textContent = `Rounds: ${++rounds}`
+}
+
+function updateReport(winner, userTroop){
+    let warReport = document.querySelector(".report")
+    if (winner === "user") {
+        if (userTroop === "cavalry"){
+            warReport.textContent = "Victory! Enemy archers flattened by your cavalry!"
+        } else if (userTroop === "archer") {
+            warReport.textContent = "Victory! Your archers pierced the enemy infantry!"
+        } else {
+            warReport.textContent = "Victory! Your infantry smashed the enemy cavalry with their spears!"
+        }
+    } else if (winner === "computer"){
+        if (userTroop === "cavalry"){
+            warReport.textContent = "Defeat! Your cavalry was routed by enemy spearmen!"
+        } else if (userTroop === "archer") {
+            warReport.textContent = "Defeat! Your archers were destroyed by the sudden attack of the enemy cavalry!"
+        } else {
+            warReport.textContent = "Defeat! Your infantry could not breathe due to the heavy attack of enemy archers!"
+        } 
+    } else {
+        warReport.textContent = "Draw! Due to clash of equal powers, no victory today."
+    }
+}
+
 function playRound(){
-    playerChoice = prompt("Make your choice(rock, paper or scissors): ")
-    playerChoice = playerChoice[0].toUpperCase() + playerChoice.slice(1).toLowerCase()
-    computerChoice = computerPlay()
-    console.clear();
+    let userTroop = this.classList[1]
+    let compTroop = enemyTroop()
+    document.querySelector(".comp-troop-img").src = `images/${compTroop}1.png`
 
-    console.log("You choose " + playerChoice)
-    console.log("Computer chooses " + computerChoice)
+    let roundWinner = checkRoundWinner(userTroop, compTroop);
+    if (roundWinner === "user") userScore++;
+    else if (roundWinner === "computer") compScore++;
     
-    let roundWinner = winner(playerChoice, computerChoice)
-    if (roundWinner === "player"){
-        console.log(`You win! ${playerChoice} beats ${computerChoice}.`)
-        playerScore++;
-    } else if (roundWinner === "computer"){
-        console.log(`You lose! ${computerChoice} beats ${playerChoice}.`)
-        computerScore++;
-    } else {
-        console.log("It's a tie.")
+    updateScoreBoard();
+    updateRound();
+    updateReport(roundWinner, userTroop);
+
+    if (userScore === 5 || compScore === 5){
+        cavalry.removeEventListener("click", playRound)
+        archer.removeEventListener("click", playRound)
+        infantry.removeEventListener("click", playRound)
+
+        const again = document.querySelector(".play-again");
+        const result = document.createElement("h1")
+        result.classList.add("last-heading")
+        
+        if (userScore > compScore){
+            result.textContent = "You Won This Battle!";
+        } else {
+            result.textContent = "You Lost This Battle!";
+        }
+
+        again.appendChild(result)
+
+        const newButton = document.createElement("button");
+        newButton.textContent = "Play Again"
+        newButton.setAttribute("id", "jump")
+        again.appendChild(newButton)
+
+        newButton.addEventListener("click", function(){
+            document.location.reload(true);
+        })
+
+        document.getElementById("jump").scrollIntoView({behavior: 'smooth'});
     }
-    console.log("Your score: " + playerScore + " Computer score: " + computerScore)
 }
 
-// This is the main function managing rounds and end of the game
-function game(){
-    while (playerScore + computerScore !== 5){
-        playRound()
-    }
-    if (playerScore > computerScore){
-        console.log("Congragulations! You've won the game.")
-    } else {
-        console.log("You've lost the game. Maybe next time!")
-    }
-}
+let cavalry = document.querySelector(".cavalry")
+cavalry.addEventListener("click", playRound)
 
-game()
+let archer = document.querySelector(".archer")
+archer.addEventListener("click", playRound)
+
+let infantry = document.querySelector(".infantry")
+infantry.addEventListener("click", playRound)
+

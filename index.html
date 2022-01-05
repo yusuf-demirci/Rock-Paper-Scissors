@@ -1,12 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock-Paper-Scissors</title>
+    <title>Cavalry-Infantry-Archer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
-    <script src="script.js"></script>
+    <div class="header">
+        <h1>CAVALRY INFANTRY ARCHER</h1>
+        <h3>Cavalry Beats Archer || Archer Beats Infantry || Infantry Beats Cavalry</h3>
+    </div>
+    <div class="container">
+        <div class="images">
+            <img class="troops cavalry" src="images/cavalry.png" alt="">
+            <img class="troops archer" src="images/archer.png" alt="">
+            <img class="troops infantry" src="images/infantry.png" alt="">
+        </div>
+        <h3>Choose Your Troops</h3>
+    </div>
+    <div class="result">
+        <div class="comp-troop">
+            <h3>Enemy Troops</h3>
+            <img class="comp-troop-img" src="images/twoswords.jpg" alt="">
+        </div>
+        <div class="scoreboard">
+            <h3 class="rounds">Round: 0</h3>
+            <h3 class="scores">Your Victories: 0 || Enemy Victories: 0</h3>
+            <h3>War Report: </h3>
+            <p class="report">Choose your troops and let the war begin!</p>
+        </div>
+    </div>
+    <div class="play-again">
+
+    </div>
+
 </body>
+<footer>
+    <p>Designed by Yusuf Demirci</p>
+</footer>
+
 </html>
